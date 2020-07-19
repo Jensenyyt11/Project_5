@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // The order message, displayed in the Toast and sent to the new Activity.
     private String mOrderMessage;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,25 +86,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_order:
+            case R.id.action_ORDER:
                 Intent intent = new Intent(MainActivity.this, OrderActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, mOrderMessage);
                 startActivity(intent);
                 return true;
+
             case R.id.action_status:
-                displayToast(getString(R.string.action_status_massage));
+                displayToast(getString(R.string.action_status_message));
                 return true;
-            case R.id.action_favorites:
-                displayToast(getString(R.string.action_favorite_massage));
+            case R.id.action_favorite:
+                displayToast(getString(R.string.action_favorites_message));
                 return true;
             case R.id.action_contact:
-                displayToast(getString(R.string.action_contact_massage));
+                displayToast(getString(R.string.action_contact_message));
                 return true;
             default:
+                // Do nothing
         }
-
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * Displays a Toast with the message.
@@ -138,5 +141,26 @@ public class MainActivity extends AppCompatActivity {
         mOrderMessage = getString(R.string.froyo_order_message);
         displayToast(mOrderMessage);
     }
+    public void showDatePicker(View view) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(),"datepicker");
+
+
+    }
+
+    public void processDatePickerResult(int year, int month, int day) {
+
+        String month_string = Integer.toString(month+1);
+        String day_string = Integer.toString(day);
+        String year_string = Integer.toString(year);
+        String dateMessage = (month_string +
+                "/" + day_string + "/" + year_string);
+        Toast.makeText(this, getString(R.string.Date) + dateMessage,
+                Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 
 }

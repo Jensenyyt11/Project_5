@@ -18,6 +18,7 @@ package com.example.android.droidcafe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
@@ -29,8 +30,6 @@ import android.widget.Toast;
  * with the intent to launch this activity.
  */
 public class OrderActivity extends AppCompatActivity {
-
-    private android.widget.Toast Toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +43,30 @@ public class OrderActivity extends AppCompatActivity {
         textView.setText(message);
     }
 
+
+    public void displayToast(String message) {
+        Toast.makeText(getApplicationContext(), message,
+                Toast.LENGTH_SHORT).show();
+    }
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked.
         switch (view.getId()) {
-            case R.id.same_day_text:
+            case R.id.sameday:
                 if (checked)
                     // Same day service
-                    displayToast(getString(R.string.same_day_text));
+                    displayToast("Same day service");
                 break;
-            case R.id.next_day_text:
+            case R.id.nextday:
                 if (checked)
                     // Next day delivery
-                    displayToast(getString(R.string.next_day_text));
+                    displayToast("Next Day");
                 break;
-            case R.id.pick_up_text:
+            case R.id.pickup:
                 if (checked)
                     // Pick up
-                    displayToast(getString(R.string.pick_up_text));
+                    displayToast("Pick Up");
                 break;
             default:
                 // Do nothing.
@@ -70,12 +74,25 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
-    public void displayToast(String message) {
-        Toast.makeText(getApplicationContext(), message,
+    public void showDatePicker(View view) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(),"datePicker");
+    }
+
+
+    public void processDatePickerResult(int year, int month, int day) {
+
+        String month_string = Integer.toString(month+1);
+        String day_string = Integer.toString(day);
+        String year_string = Integer.toString(year);
+        String dateMessage = (month_string +
+                "/" + day_string + "/" + year_string);
+        Toast.makeText(this, getString(R.string.Date) + dateMessage,
                 Toast.LENGTH_SHORT).show();
     }
 
-};
 
 
 
+
+}
